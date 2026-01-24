@@ -1,10 +1,10 @@
 export const initialStore=()=>{
   return{
-    message: null,
+    message: "mensaje test",
     todos: [
       {
         id: 1,
-        title: "Make the bed",
+        message: "Make the bed",
         background: null,
       },
       {
