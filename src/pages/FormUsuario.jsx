@@ -10,19 +10,15 @@ export const FormUsuario = () => {
     async function addContact(event, contact) {
         event.preventDefault()
         const newContact = {
-            "agendas": [
 
-                {
-                    "name": "string",
-                    "phone": "",
-                    "email": "",
-                    "address": ""
-                }
-
-            ]
+            "name": name,
+            "phone": number,
+            "email": email,
+            "address": address,
+            
         }
 
-        await fetch(" ", {
+        await fetch("https://playground.4geeks.com/contact/agendas/val_test01/contacts", {
             method: "POST",
             body: JSON.stringify(newContact),
             headers: { "Content-type": "application/json" }
@@ -31,58 +27,95 @@ export const FormUsuario = () => {
     }
 
     return (
-        <div className="formulario d-flex flex-column justify-content-center align-items-center">
-            <h1>Agregar contacto a Agenda</h1>
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card shadow">
+                        <div className="card-body">
+                            <h2 className="text-center mb-4">
+                                Agregar contacto
+                            </h2>
 
-            <form>
+                            <form>
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Nombre y Apellido
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Valeria Alvarado"
+                                        onChange={(e) =>
+                                            setName(e.target.value)
+                                        }
+                                    />
+                                </div>
 
-                <div>
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Dirección de Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        placeholder="email@gmail.com"
+                                        value={email}
+                                        onChange={(e) =>
+                                            setEmail(e.target.value)
+                                        }
+                                    />
+                                </div>
 
-                    <label>Nombre y Apellido </label>
-                    <input type="text"
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Valeria Alvarado"
-                    />
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Número teléfono
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="32147040"
+                                        value={number}
+                                        inputMode="numeric"
+                                        onChange={(e) =>
+                                            setNumber(e.target.value)
+                                        }
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="form-label">
+                                        Dirección
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Arroyo del Olivar 11"
+                                        value={address}
+                                        onChange={(e) =>
+                                            setAddress(e.target.value)
+                                        }
+                                    />
+                                </div>
+
+                                <button
+                                    onClick={addContact}
+                                    type="submit"
+                                    className="btn btn-primary w-100"
+                                >
+                                    Agregar Contacto
+                                </button>
+                            </form>
+
+                            <Link
+                                to="/"
+                                className="btn btn-link w-100 mt-3"
+                            >
+                                Volver
+                            </Link>
+                        </div>
+                    </div>
                 </div>
-                <br></br>
-
-                <div>
-                    <label>Direccion de Email </label>
-                    <input type="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        placeholder="email@gmail.com"
-                    />
-                </div>
-
-                <br></br>
-                <div>
-                    <label>Número teléfono</label>
-                    <input type="text"
-                        onChange={(e) => setNumber(e.target.value)}
-                        inputMode="numeric"
-                        value={number}
-                        placeholder="32147040"
-                    />
-                </div>
-                <br></br>
-                <div>
-                    <label>Dirección</label>
-                    <input type="text"
-                        onChange={(e) => setAddress(e.target.value)}
-                        value={address}
-                        placeholder="Arroyo del Olivar 11"
-                    />
-
-
-                </div>
-                <br></br>
-                <button onClick={addContact} type='submit'>Agregar Contacto</button>
-            </form>
-
+            </div>
         </div>
-
     );
-
-
-}
+};

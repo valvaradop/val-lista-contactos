@@ -5,14 +5,24 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 export const Profile = () => {
     const {store, dispatch} =useGlobalReducer()
     const { id } = useParams()
-    const [list, setList] = useState([
-
-        { name: "Val1", id: 1, phone: 1234567, dirección: "fhfhhfhfh" },
-        { name: "Val2", id: 2, phone: 1234567, dirección: "miiaaaaau" },
-        { name: "Val3", id: 3, phone: 1234567, dirección: "addadadda" }
-    ])
+    const [list, setList] = useState([])
     const [user, setUser] = useState(null)
 
+    async function obtenerPerfil() {
+         
+		try {
+			let response = await fetch(`https://playground.4geeks.com/contact/agendas/val_test01/contacts/${id}`)
+			let data = await response.json()
+		setList(data.contacts); 
+		console.log(data)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+    obtenerPerfil()
+
+    
     useEffect(() => {
         const findUser = list.find((e) => e.id === parseInt(id))
         setUser(findUser)
@@ -26,7 +36,7 @@ export const Profile = () => {
                     <div className="card-body">
                         <h5 className="card-title">Esto deberia ser un Perfil de {user.name}</h5>
                         <h5>{user.phone}</h5>
-                        <h5>{user.dirección}</h5>
+                        <h5>{user.address}</h5>
 
                     </div>
                 </div>
