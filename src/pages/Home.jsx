@@ -19,7 +19,6 @@ export const Home = () => {
 			console.log(error)
 		}
 
-
 	}
 
 	async function deleteContact(id) {
@@ -30,20 +29,20 @@ export const Home = () => {
 		getContacts()
 	}
 
-	async function editContact(id) {
+	async function editContact(contact) {
 		const edit = {
 
-            "name": name,
-            "phone": number,
-            "email": email,
-            "address": address,
-            
-        }
+			"name": contact.name,
+			"phone": contact.number,
+			"email": contact.email,
+			"address": contact.address,
 
-		await fetch(`https://playground.4geeks.com/contact/agendas/val_test01/contacts/${id}`, {
+		}
+
+		await fetch(`https://playground.4geeks.com/contact/agendas/val_test01/contacts/${contact.id}`, {
 			method: "PUT",
 			body: JSON.stringify(edit),
-			headers: {"Content-type":"application/json"} 
+			headers: { "Content-type": "application/json" }
 		})
 		getContacts()
 	}
@@ -52,18 +51,18 @@ export const Home = () => {
 		<div className="container mt-5">
 			<div className="row justify-content-center">
 				<div className="col-md-8">
-					<h1 className="text-center mb-4">📒 Lista de Contactos</h1>
+					<h1 className="text-center mb-4">Lista de Contactos</h1>
 
 					<div className="d-flex justify-content-between mb-4">
 						<Link to="/form" className="btn btn-success">
-							➕ Agregar nuevo contacto
+							Agregar nuevo contacto
 						</Link>
 
 						<button
 							onClick={getContacts}
 							className="btn btn-outline-primary"
 						>
-							🔄 Obtener contactos
+							Obtener contactos
 						</button>
 					</div>
 
@@ -87,18 +86,18 @@ export const Home = () => {
 									</div>
 
 									<div>
-										<button
+										<Link
+											to={`/profile/${e.id}`}
 											className="btn btn-sm btn-outline-secondary me-2"
-											onClick={() => editContact(e.id)}
 										>
-											✏️ Edit
-										</button>
+											Editar Contacto
+										</Link>
 
 										<button
 											className="btn btn-sm btn-outline-danger"
 											onClick={() => deleteContact(e.id)}
 										>
-											🗑️
+											Borrar
 										</button>
 									</div>
 								</div>

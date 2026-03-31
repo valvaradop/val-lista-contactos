@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export const FormUsuario = () => {
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [number, setNumber] = useState("");
@@ -23,7 +25,8 @@ export const FormUsuario = () => {
             body: JSON.stringify(newContact),
             headers: { "Content-type": "application/json" }
         });
-
+        
+navigate("/");
     }
 
     return (

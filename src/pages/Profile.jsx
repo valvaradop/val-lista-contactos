@@ -1,49 +1,83 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-
 export const Profile = () => {
-    const {store, dispatch} =useGlobalReducer()
-    const { id } = useParams()
-    const [list, setList] = useState([])
-    const [user, setUser] = useState(null)
 
-    async function obtenerPerfil() {
-         
-		try {
-			let response = await fetch(`https://playground.4geeks.com/contact/agendas/val_test01/contacts/${id}`)
-			let data = await response.json()
-		setList(data.contacts); 
-		console.log(data)
-		} catch (error) {
-			console.log(error)
-		}
-	}
+    
+    const { store } = useGlobalReducer();
+    const { id } = useParams();
+    const navigate = useNavigate();
 
-    obtenerPerfil()
+    const [user, setUser] = useState(null);
+
+    const [form, setForm] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        address: ""
+    });
 
     
     useEffect(() => {
-        const findUser = list.find((e) => e.id === parseInt(id))
-        setUser(findUser)
-    }, [])
+        obtenerPerfil();
+    }, [id]);
+
+    useEffect(() => {
+        if (user) {
+            setForm({
+                name: user.name,
+                phone: user.phone,
+                email: user.email,
+                address: user.address
+            });
+        }
+    }, [user]);
+
+    
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async () => {
+        await fetch(`https://playground.4geeks.com/contact/agendas/val_test01/contacts/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(form),
+            headers: { "Content-type": "application/json" }
+        });
+
+        navigate("/");
+    };
+
+    async function obtenerPerfil() {
+        let response = await fetch(`https://playground.4geeks.com/contact/agendas/val_test01/contacts/${id}`);
+        let data = await response.json();
+        setUser(data);
+    }
+
+    
     return (
-        <div>
-            {store.message}
-            {
-                user ? (<div className="card">
-                    <img src="..." className="card-img-top" alt="..." />
-                    <div className="card-body">
-                        <h5 className="card-title">Esto deberia ser un Perfil de {user.name}</h5>
-                        <h5>{user.phone}</h5>
-                        <h5>{user.address}</h5>
+        <div className="container mt-4">
+            {user ? (
+                <div className="card p-3">
+                    <label>Nombre</label>
+                    <input name="name" value={user.name} onChange={handleChange} />
+                    <label>Telefono</label>
+                    <input name="phone" value={user.phone} onChange={handleChange} />
+                    <label>Email</label>
+                    <input name="email" value={user.email} onChange={handleChange} />
+                    <label>Direccion</label>
+                    <input name="address" value={user.address} onChange={handleChange} />
 
-                    </div>
+                    <button onClick={handleSubmit}>
+                        Guardar cambios
+                    </button>
                 </div>
-                ) : (<h1>Loadinggggg</h1>)}
-
-
+            ) : (
+                <h1>Loading...</h1>
+            )}
         </div>
-    )
-
-}
+    );
+};
