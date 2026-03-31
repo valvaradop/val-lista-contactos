@@ -107,7 +107,7 @@ export const Home = () => {
 
 					{list.length === 0 && (
 						<p className="text-center text-muted mt-4">
-							No hay contactos aún 👀
+							No hay contactos aún
 						</p>
 					)}
 				</div>
